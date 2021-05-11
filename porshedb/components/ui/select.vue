@@ -3,11 +3,11 @@
     <v-row>
       <v-col>
         <v-autocomplete
-          v-model="item"
+          v-model="selection"
           clearable
           :items="items"
-          label="Track"
-          @change="$emit('update:track', item)"
+          :label="label"
+          @change="$emit('update:item', selection)"
         ></v-autocomplete>
       </v-col>
     </v-row>
@@ -17,14 +17,23 @@
 <script>
 export default {
   props: {
-    track: {
+    item: {
+      type: String,
+      default: '',
+    },
+    items: {
+      type: Array,
+      default: () => [],
+    },
+    label: {
       type: String,
       default: '',
     },
   },
-  data: () => ({
-    items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-    item: '',
-  }),
+  data() {
+    return {
+      selection: '',
+    }
+  },
 }
 </script>
