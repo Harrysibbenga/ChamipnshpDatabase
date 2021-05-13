@@ -1,141 +1,66 @@
 <template>
   <v-container fluid>
-    <v-combobox
-      v-model="model"
-      :filter="filter"
-      :hide-no-data="!search"
-      :items="items"
-      :search-input.sync="search"
-      hide-selected
-      label="Search for an option"
-      multiple
-      small-chips
-      solo
-    >
-      <template #no-data>
-        <v-list-item>
-          <span class="subheading">Create</span>
-          <v-chip :color="`${colors[nonce - 1]} lighten-3`" label small>
-            {{ search }}
-          </v-chip>
-        </v-list-item>
-      </template>
-      <template #selection="{ attrs, item, parent, selected }">
-        <v-chip
-          v-if="item === Object(item)"
-          v-bind="attrs"
-          :color="`${item.color} lighten-3`"
-          :input-value="selected"
-          label
-          small
-        >
-          <span class="pr-2">
-            {{ item.text }}
-          </span>
-          <v-icon small @click="parent.selectItem(item)"> close </v-icon>
-        </v-chip>
-      </template>
-      <template #item="{ index, item }">
-        <v-text-field
-          v-if="editing === item"
-          v-model="editing.text"
-          autofocus
-          flat
-          background-color="transparent"
-          hide-details
-          solo
-          @keyup.enter="edit(index, item)"
-        ></v-text-field>
-        <v-chip v-else :color="`${item.color} lighten-3`" dark label small>
-          {{ item.text }}
-        </v-chip>
-        <v-spacer></v-spacer>
-        <v-list-item-action @click.stop>
-          <v-btn icon @click.stop.prevent="edit(index, item)">
-            <v-icon>{{ editing !== item ? 'mdi-pencil' : 'mdi-check' }}</v-icon>
-          </v-btn>
-        </v-list-item-action>
-      </template>
-    </v-combobox>
+    <h1 class="text-h5 pt-5 pb-16">PDF uploads for the {{ champ }}</h1>
+    <v-row>
+      <v-col>
+        <UiSelect :label="'Year'" :items="years" :item.sync="year" />
+      </v-col>
+      <v-col>
+        <UiSelect :label="'Session'" :items="sessions" :item.sync="session" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <UiSelect :label="'Track'" :items="tracks" :item.sync="track" />
+      </v-col>
+      <v-col>
+        <v-text-field v-model="time" label="Time"> </v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <UiSelect
+          :label="'Weather'"
+          :items="weatherTypes"
+          :item.sync="weather"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-file-input
+          label="PDF file input"
+          accept="application/pdf"
+          chips
+          show-size
+        ></v-file-input>
+      </v-col>
+      <v-col cols="12">
+        <v-btn @click.native="upload">Upload to database</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    activator: null,
-    attach: null,
-    colors: ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'],
-    editing: null,
-    editingIndex: -1,
-    items: [
-      { header: 'Select an option or create one' },
-      {
-        text: 'Foo',
-        color: 'blue',
-      },
-      {
-        text: 'Bar',
-        color: 'red',
-      },
-    ],
-    nonce: 1,
-    menu: false,
-    model: [
-      {
-        text: 'Foo',
-        color: 'blue',
-      },
-    ],
-    x: 0,
-    search: null,
-    y: 0,
-  }),
-
-  watch: {
-    model(val, prev) {
-      if (val.length === prev.length) return
-
-      this.model = val.map((v) => {
-        if (typeof v === 'string') {
-          v = {
-            text: v,
-            color: this.colors[this.nonce - 1],
-          }
-
-          this.items.push(v)
-
-          this.nonce++
-        }
-
-        return v
-      })
+  props: {
+    champ: {
+      type: String,
+      default: '',
     },
   },
-
+  data() {
+    return {
+      year: '',
+      session: '',
+      weather: '',
+      track: '',
+      time: '',
+    }
+  },
   methods: {
-    edit(index, item) {
-      if (!this.editing) {
-        this.editing = item
-        this.editingIndex = index
-      } else {
-        this.editing = null
-        this.editingIndex = -1
-      }
-    },
-    filter(item, queryText, itemText) {
-      if (item.header) return false
-
-      const hasValue = (val) => (val != null ? val : '')
-
-      const text = hasValue(itemText)
-      const query = hasValue(queryText)
-
-      return text
-        .toString()
-        .toLowerCase()
-        .includes(query.toString().toLowerCase())
-    },
+    upload() {},
   },
 }
 </script>

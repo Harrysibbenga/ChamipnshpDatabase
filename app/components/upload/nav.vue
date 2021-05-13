@@ -21,7 +21,7 @@
         </v-card>
         <v-card v-else flat>
           <v-card-text>
-            <UploadPdf />
+            <UploadPdf :champ="champ" />
           </v-card-text>
         </v-card>
       </v-tab-item>
