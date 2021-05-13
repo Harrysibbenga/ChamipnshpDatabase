@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="text-h5 py-5">Please select a Championship</h1>
-    <UiSelect :label="label" :item.sync="item" :items="items"></UiSelect>
+    <UiCombobox :label="label" :item.sync="item" :items="items"></UiCombobox>
   </div>
 </template>
 

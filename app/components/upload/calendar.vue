@@ -28,10 +28,10 @@
               <tbody>
                 <tr v-for="(item, index) in items" :key="index">
                   <td>
-                    <UiSelect
+                    <UiCombobox
                       :label="'Track'"
                       :item.sync="item.track"
-                    ></UiSelect>
+                    ></UiCombobox>
                   </td>
                   <td>
                     <v-text-field
