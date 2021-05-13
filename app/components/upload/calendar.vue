@@ -11,9 +11,6 @@
             hide-details="auto"
           ></v-text-field>
         </v-col>
-        <v-col class="my-auto">
-          <ModalTrack />
-        </v-col>
       </v-row>
 
       <v-row class="pt-5">
