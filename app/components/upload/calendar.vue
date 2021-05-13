@@ -11,9 +11,9 @@
             hide-details="auto"
           ></v-text-field>
         </v-col>
-        <v-col class="my-auto"
-          ><v-btn color="primary">Track not found ?</v-btn></v-col
-        >
+        <v-col class="my-auto">
+          <ModalTrack />
+        </v-col>
       </v-row>
 
       <v-row class="pt-5">
@@ -132,9 +132,6 @@ export default {
             message: 'Calender timetable has been added',
             hidden: false,
           }
-          setTimeout(() => {
-            this.alert.hidden = true
-          }, 5000)
         })
         .catch((error) => {
           this.alert = {
@@ -142,9 +139,6 @@ export default {
             message: error.message,
             hidden: false,
           }
-          setTimeout(() => {
-            this.alert.hidden = true
-          }, 5000)
         })
     },
   },

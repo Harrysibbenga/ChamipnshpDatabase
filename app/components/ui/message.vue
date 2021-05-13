@@ -18,5 +18,15 @@ export default {
       }),
     },
   },
+  watch: {
+    alert(val) {
+      if (val.hidden === false) {
+        setTimeout(() => {
+          // eslint-disable-next-line vue/no-mutating-props
+          this.alert.hidden = true
+        }, 5000)
+      }
+    },
+  },
 }
 </script>

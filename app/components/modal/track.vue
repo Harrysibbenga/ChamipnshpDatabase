@@ -1,57 +1,92 @@
 <template>
-  <div>
-    <v-menu bottom origin="center center" transition="scale-transition">
+  <v-row justify="center">
+    <v-dialog v-model="dialog" persistent max-width="600px">
       <template #activator="{ on, attrs }">
         <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          Track not found
+          Track not found ?
         </v-btn>
       </template>
-
       <v-card>
-        <v-list>
-          <v-list-item>
-            <v-list-item-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
-              <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-        <v-list>
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="message" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable messages</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="hints" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable hints</v-list-item-title>
-          </v-list-item>
-        </v-list>
-
+        <v-card-title>
+          <span class="headline">Add new track information</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12" class="mt-5">
+                <v-text-field
+                  v-model="name"
+                  label="Track name*"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <UiMessage :alert="alert"></UiMessage>
         <v-card-actions>
           <v-spacer></v-spacer>
-
-          <v-btn text @click="menu = false"> Cancel </v-btn>
-          <v-btn color="primary" text @click="menu = false"> Save </v-btn>
+          <v-btn color="blue darken-1" text @click="close"> Close </v-btn>
+          <v-btn color="blue darken-1" text @click="check"> Save </v-btn>
         </v-card-actions>
       </v-card>
-    </v-menu>
-  </div>
+    </v-dialog>
+  </v-row>
 </template>
+
+<script>
+import { tracks } from '@/services/firebase'
+
+export default {
+  data: () => ({
+    dialog: false,
+    name: '',
+    alert: {
+      type: '',
+      hidden: true,
+      message: '',
+    },
+  }),
+  methods: {
+    create() {
+      tracks
+        .add({
+          name: this.name,
+        })
+        .then(() => {
+          this.alert = {
+            type: 'success',
+            hidden: false,
+            message: 'Track name added',
+          }
+          setTimeout(() => {
+            this.close()
+          }, 5000)
+        })
+        .catch((error) => {
+          this.alert = {
+            type: 'error',
+            hidden: false,
+            message: error.message,
+          }
+        })
+    },
+    check() {
+      if (this.name !== '') {
+        this.create()
+      } else {
+        this.alert = {
+          type: 'error',
+          hidden: false,
+          message: 'Name cannot be blank',
+        }
+      }
+    },
+    close() {
+      this.name = ''
+      this.dialog = false
+    },
+  },
+}
+</script>
