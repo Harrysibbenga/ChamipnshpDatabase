@@ -20,14 +20,12 @@ CREATE TABLE post (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   title TEXT NOT NULL,
   body TEXT NOT NULL,
-  FOREIGN KEY
-(author_id) REFERENCES user
-(id)
+  FOREIGN KEY (author_id) REFERENCES user (id)
 );
 
 CREATE TABLE years (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  year INTEGER NOT NULL,
+  year INTEGER NOT NULL
 );
 
 CREATE TABLE drivers (
@@ -36,7 +34,7 @@ CREATE TABLE drivers (
   last_name TEXT NOT NULL,
   dob TEXT,
   nationality TEXT,
-  image TEXT,
+  image TEXT
 );
 
 CREATE TABLE tracks (
@@ -45,12 +43,12 @@ CREATE TABLE tracks (
   length NUMERIC,
   corners NUMERIC,
   country TEXT,
-  region TEXT,
+  region TEXT
 );
 
 CREATE TABLE event_types (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
+  name TEXT NOT NULL
 );
 
 CREATE TABLE teams (
@@ -60,16 +58,22 @@ CREATE TABLE teams (
   city TEXT,
   region TEXT,
   country TEXT,
-  phone NUMERIC, 
+  phone NUMERIC
 );
 
 CREATE TABLE class (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
+  name TEXT NOT NULL
 );
 
 CREATE TABLE results (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  driver_id INTEGER NOT NULL,
+  track_id INTEGER NOT NULL,
+  team_id INTEGER NOT NULL,
+  class_id INTEGER NOT NULL,
+  event_type_id INTEGER NOT NULL,
+  year_id INTEGER NOT NULL,
   round_number INTEGER NOT NULL,
   best_time NUMERIC NOT NULL,
   road_condition TEXT NOT NULL,
@@ -77,22 +81,10 @@ CREATE TABLE results (
   laps NUMERIC NOT NULL,
   total_time NUMERIC NOT NULL, 
   best_time_on_lap NUMERIC NOT NULL, 
-  FOREIGN KEY
-(driver_id) REFERENCES drivers
-(id),
-  FOREIGN KEY
-(track_id) REFERENCES tracks
-(id),
-FOREIGN KEY
-(year_id) REFERENCES years
-(id),
-FOREIGN KEY
-(event_type_id) REFERENCES event_types
-(id),
-FOREIGN KEY
-(class_id) REFERENCES class
-(id),
-FOREIGN KEY
-(team_id) REFERENCES team
-(id),
+  FOREIGN KEY (driver_id) REFERENCES drivers (id),
+  FOREIGN KEY (track_id) REFERENCES tracks (id),
+  FOREIGN KEY (year_id) REFERENCES years (id),
+  FOREIGN KEY (event_type_id) REFERENCES event_types (id),
+  FOREIGN KEY (class_id) REFERENCES class (id),
+  FOREIGN KEY (team_id) REFERENCES team (id)
 );
