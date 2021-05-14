@@ -1,0 +1,98 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS years;
+DROP TABLE IF EXISTS drivers;
+DROP TABLE IF EXISTS tracks;
+DROP TABLE IF EXISTS event_type;
+DROP TABLE IF EXISTS teams;
+DROP TABLE IF EXISTS class;
+DROP TABLE IF EXISTS results;
+
+CREATE TABLE user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+
+CREATE TABLE post (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  author_id INTEGER NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  title TEXT NOT NULL,
+  body TEXT NOT NULL,
+  FOREIGN KEY
+(author_id) REFERENCES user
+(id)
+);
+
+CREATE TABLE years (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  year INTEGER NOT NULL,
+);
+
+CREATE TABLE drivers (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  dob TEXT,
+  nationality TEXT,
+  image TEXT,
+);
+
+CREATE TABLE tracks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  length NUMERIC,
+  corners NUMERIC,
+  country TEXT,
+  region TEXT,
+);
+
+CREATE TABLE event_types (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+);
+
+CREATE TABLE teams (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  first_line_address TEXT,
+  city TEXT,
+  region TEXT,
+  country TEXT,
+  phone NUMERIC, 
+);
+
+CREATE TABLE class (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+);
+
+CREATE TABLE results (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  round_number INTEGER NOT NULL,
+  best_time NUMERIC NOT NULL,
+  road_condition TEXT NOT NULL,
+  position NUMERIC NOT NULL,
+  laps NUMERIC NOT NULL,
+  total_time NUMERIC NOT NULL, 
+  best_time_on_lap NUMERIC NOT NULL, 
+  FOREIGN KEY
+(driver_id) REFERENCES drivers
+(id),
+  FOREIGN KEY
+(track_id) REFERENCES tracks
+(id),
+FOREIGN KEY
+(year_id) REFERENCES years
+(id),
+FOREIGN KEY
+(event_type_id) REFERENCES event_types
+(id),
+FOREIGN KEY
+(class_id) REFERENCES class
+(id),
+FOREIGN KEY
+(team_id) REFERENCES team
+(id),
+);
