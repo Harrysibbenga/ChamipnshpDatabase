@@ -104,7 +104,7 @@ export default {
       },
     ],
     alert: {
-      type: '',
+      type: 'info',
       message: '',
       hidden: true,
     },

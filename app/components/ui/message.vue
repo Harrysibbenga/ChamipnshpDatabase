@@ -12,7 +12,7 @@ export default {
     alert: {
       type: Object,
       default: () => ({
-        type: '',
+        type: 'info',
         hidden: true,
         messege: '',
       }),

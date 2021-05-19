@@ -5,12 +5,14 @@
       :label="label"
       :item.sync="item"
       :items="items"
-      :data="'championship'"
+      :upload.sync="upload"
     ></UiCombobox>
+    <UiMessage :alert="alert" />
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   props: {
     champ: {
@@ -23,6 +25,12 @@ export default {
       label: 'Championships',
       default: '',
       championships: [],
+      alert: {
+        type: 'info',
+        message: '',
+        hidden: true,
+      },
+      token: '',
     }
   },
   computed: {
@@ -43,20 +51,63 @@ export default {
 
       return items
     },
+    upload: {
+      get() {
+        const upload = {
+          status: false,
+          item: '',
+        }
+        return upload
+      },
+      set(newVal) {
+        if (newVal.status === true) {
+          this.add(newVal.item)
+          console.log(newVal.item)
+        }
+      },
+    },
   },
   created() {
-    fetch('http://127.0.0.1:8000/api/championships/', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Token 5d7b6dae64bce8b2a2d6ba1d5693eee4c2ed2140',
-      },
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        this.championships = resp
-        console.log(resp)
+    this.getChamps()
+    this.token = Cookies.get('admin_token')
+  },
+  methods: {
+    add(item) {
+      fetch('http://127.0.0.1:8000/api/championships/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Token ' + this.token,
+        },
+        body: JSON.stringify({ name: item }),
       })
-      .catch((error) => console.log(error))
+        .then(() => {
+          this.getChamps()
+        })
+        .catch((error) => {
+          this.alert = {
+            type: 'error',
+            message: error,
+            hidden: false,
+          }
+        })
+    },
+    getChamps() {
+      fetch('http://127.0.0.1:8000/api/championships/', {
+        method: 'GET',
+      })
+        .then((resp) => resp.json())
+        .then((resp) => {
+          this.championships = resp
+        })
+        .catch((error) => {
+          this.alert = {
+            type: 'error',
+            message: error,
+            hidden: false,
+          }
+        })
+    },
   },
 }
 </script>

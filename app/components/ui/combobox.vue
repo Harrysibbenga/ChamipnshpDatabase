@@ -5,7 +5,6 @@
         <v-combobox
           v-model="selected"
           :search-input.sync="search"
-          hide-selected
           clearable
           :items="itemList"
           :label="label"
@@ -31,7 +30,6 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
 export default {
   props: {
     item: {
@@ -46,9 +44,9 @@ export default {
       type: String,
       default: '',
     },
-    data: {
-      type: String,
-      default: '',
+    upload: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
@@ -68,19 +66,18 @@ export default {
   methods: {
     add(evt) {
       // Check if admin user is logged in
-      console.log(this.admin)
-      console.log(Cookies.get('admin_token'))
       if (this.admin) {
-        // add data to database
-        console.log('Item added', evt.target.value)
-        // this.itemList.push(evt.target.value)
+        // update upload prop with input data and ststus update
+        const data = {
+          item: evt.target.value,
+          status: true,
+        }
+
+        this.$emit('update:upload', data)
       } else {
         // Prompt to login
         this.$store.commit('global/SET_DIALOG', true)
       }
-      // if (this.data === 'championship') {
-
-      // }
     },
   },
 }
