@@ -23,12 +23,15 @@
             </v-list-item>
           </template>
         </v-combobox>
+
+        <ModalLogin />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   props: {
     item: {
@@ -43,6 +46,10 @@ export default {
       type: String,
       default: '',
     },
+    data: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -54,10 +61,26 @@ export default {
     itemList() {
       return this.items
     },
+    admin() {
+      return this.$store.getters['users/admin']
+    },
   },
   methods: {
     add(evt) {
-      this.itemList.push(evt.target.value)
+      // Check if admin user is logged in
+      console.log(this.admin)
+      console.log(Cookies.get('admin_token'))
+      if (this.admin) {
+        // add data to database
+        console.log('Item added', evt.target.value)
+        // this.itemList.push(evt.target.value)
+      } else {
+        // Prompt to login
+        this.$store.commit('global/SET_DIALOG', true)
+      }
+      // if (this.data === 'championship') {
+
+      // }
     },
   },
 }

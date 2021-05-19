@@ -23,7 +23,19 @@
 </template>
 
 <script>
+import { auth } from '@/services/firebase'
+import Cookie from 'js-cookie'
+
 export default {
   layout: 'admin',
+  methods: {
+    async logout() {
+      await auth.signOut()
+      await Cookie.remove('access_token')
+      await Cookie.remove('admin_token')
+
+      location.href = '/'
+    },
+  },
 }
 </script>

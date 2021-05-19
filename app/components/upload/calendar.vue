@@ -133,7 +133,7 @@ export default {
         .catch((error) => {
           this.alert = {
             type: 'error',
-            message: error.message,
+            message: error,
             hidden: false,
           }
         })

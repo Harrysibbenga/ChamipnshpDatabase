@@ -19,5 +19,14 @@ export const actions = {
         email: decoded.email,
       })
     }
+
+    const parsedAdmin = cookieparser.parse(req.headers.cookie)
+    const adminTokenCookie = parsedAdmin.admin_token
+
+    if (!adminTokenCookie) {
+      commit('users/SET_ADMIN_USER', false)
+    } else {
+      commit('users/SET_ADMIN_USER', true)
+    }
   },
 }
