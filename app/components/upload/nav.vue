@@ -14,12 +14,7 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in items" :key="item">
-        <v-card v-if="item == 'Create Calendar'" flat>
-          <v-card-text>
-            <UploadCalendar :champ="champ" />
-          </v-card-text>
-        </v-card>
-        <v-card v-else flat>
+        <v-card flat>
           <v-card-text>
             <UploadPdf :champ="champ" />
           </v-card-text>
@@ -40,7 +35,7 @@ export default {
   data() {
     return {
       tab: null,
-      items: ['Create Calendar', 'Upload PDF'],
+      items: ['Upload PDF'],
     }
   },
 }

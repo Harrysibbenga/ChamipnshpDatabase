@@ -145,3 +145,5 @@ class Result(models.Model):
     laps = models.IntegerField()
     best_time_on_lap = models.IntegerField()
     mph = models.DecimalField(max_digits=5, decimal_places=2)
+    date_of_event = models.DateField()
+    time_of_event = models.TimeField()

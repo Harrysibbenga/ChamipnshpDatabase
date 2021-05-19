@@ -14,7 +14,8 @@
         <UiSelect :label="'Track'" :items="tracks" :item.sync="track" />
       </v-col>
       <v-col>
-        <v-text-field v-model="time" label="Time"> </v-text-field>
+        <v-text-field v-model="round" label="Round number" type="number">
+        </v-text-field>
       </v-col>
     </v-row>
     <v-row>
@@ -28,7 +29,18 @@
     </v-row>
     <v-row>
       <v-col>
+        <h3 class="text-h5 pb-10">Date</h3>
+        <v-date-picker v-model="date"></v-date-picker>
+      </v-col>
+      <v-col>
+        <h3 class="text-h5 pb-10">Time</h3>
+        <v-time-picker v-model="time" format="ampm" landscape></v-time-picker>
+      </v-col>
+    </v-row>
+    <v-row class="my-10">
+      <v-col>
         <v-file-input
+          v-model="file"
           label="PDF file input"
           accept="application/pdf"
           chips
@@ -36,7 +48,7 @@
         ></v-file-input>
       </v-col>
       <v-col cols="12">
-        <v-btn @click.native="upload">Upload to database</v-btn>
+        <v-btn @click.native="check">Upload to database</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -57,10 +69,14 @@ export default {
       weather: '',
       track: '',
       time: '',
+      round: '',
+      date: '',
+      file: '',
     }
   },
   methods: {
     upload() {},
+    check() {},
   },
 }
 </script>
