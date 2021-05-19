@@ -39,6 +39,10 @@ class Driver(models.Model):
     def __str__(self):
         return self.first_name + ' ' + self.last_name
 
+    def podiums(self):
+        podiums = Result.objects.filter(driver=self, position__lte=3)
+        return len(podiums)
+
 
 class Track(models.Model):
     created = models.DateTimeField(auto_now_add=True)

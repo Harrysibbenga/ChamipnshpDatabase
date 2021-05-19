@@ -6,7 +6,7 @@ from django.urls import path, include
 app_name = "upload"
 
 router = routers.DefaultRouter()
-router.register('files', FileViewSet)
+router.register('file', FileViewSet)
 
 urlpatterns = [
     path('', include(router.urls))

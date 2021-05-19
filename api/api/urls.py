@@ -24,10 +24,9 @@ from rest_framework.authtoken.views import obtain_auth_token
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/', include('core.urls')),
+    path("api/upload/", include("upload.urls", namespace="upload")),
     path('auth/', obtain_auth_token),
-    path("upload/", include("upload.urls", namespace="upload")),
 ]
 
 if settings.DEBUG:
