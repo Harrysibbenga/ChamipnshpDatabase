@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Championship, Result, Driver, Team, Track
+from .models import Championship, Result, Driver, Team, Track, RoadCondition, Weather, Session, Year
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,5 +35,30 @@ class TeamSerializer(serializers.ModelSerializer):
 
 class TrackSerializer(serializers.ModelSerializer):
     class Meta:
-        modal = Track
+        model = Track
         fields = '__all__'
+
+
+class YearSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Year
+        fields = '__all__'
+
+
+class SessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Session
+        fields = '__all__'
+
+
+class WeatherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Weather
+        fields = '__all__'
+
+
+class RoadConditionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoadCondition
+        fields = '__all__'
+

@@ -59,14 +59,14 @@ export default {
     itemList() {
       return this.items
     },
-    admin() {
-      return this.$store.getters['users/admin']
+    token() {
+      return this.$store.getters['global/token']
     },
   },
   methods: {
     add(evt) {
       // Check if admin user is logged in
-      if (this.admin) {
+      if (this.token) {
         // update upload prop with input data and ststus update
         const data = {
           item: evt.target.value,

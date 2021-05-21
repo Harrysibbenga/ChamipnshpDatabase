@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Driver, Team, Track, Championship, Result, Year, Session, RoadCondition, DriverClass
+from .models import Driver, Team, Track, Championship, Result, Year, Session, RoadCondition, DriverClass, Weather
 
 # Register your models here.
 
@@ -8,7 +8,7 @@ from .models import Driver, Team, Track, Championship, Result, Year, Session, Ro
 class ResultAdmin(admin.ModelAdmin):
     list_display = ['driver', 'team',
                     'round_number', 'track', 'year', 'position', 'position_in_class', 'mph', 'session', 'championship']
-    list_filter = ['year', 'track', 'driver', 'championship']
+    list_filter = ['year', 'track', 'driver', 'championship', 'driver_class', 'team']
 
 
 admin.site.register(Driver)
@@ -19,4 +19,5 @@ admin.site.register(Year)
 admin.site.register(DriverClass)
 admin.site.register(Session)
 admin.site.register(RoadCondition)
+admin.site.register(Weather)
 

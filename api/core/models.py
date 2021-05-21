@@ -2,7 +2,6 @@ from django.db import models
 
 
 # Create your models here.
-
 # Modal Managers
 class DriverManager(models.Manager):
 
@@ -18,18 +17,11 @@ class CreateByNameManager(models.Manager):
         return item
 
 
-class CreateYearManager(models.Manager):
-
-    def create_item(self, year):
-        year = self.create(year=year)
-        return year
-
-
 # Models
 class Driver(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    first_name = models.CharField(max_length=100, blank=False)
-    last_name = models.CharField(max_length=100, blank=False)
+    first_name = models.CharField(max_length=100, blank=False, null=False)
+    last_name = models.CharField(max_length=100, blank=False, null=False)
     dob = models.DateField(blank=True, null=True)
     nat = models.CharField(max_length=150)
     image = models.ImageField()
@@ -46,11 +38,11 @@ class Driver(models.Model):
 
 class Track(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=150, blank=False)
-    length = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, blank=False, null=False,unique=True)
+    length = models.CharField(max_length=150, blank=True, null=True)
     corners = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
-    country = models.CharField(max_length=100)
-    region = models.CharField(max_length=20)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    region = models.CharField(max_length=100, blank=True, null=True)
 
     objects = CreateByNameManager()
 
@@ -60,7 +52,7 @@ class Track(models.Model):
 
 class Team(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=150, blank=False, unique=True)
+    name = models.CharField(max_length=150, blank=False, null=False, unique=True)
     address_line_1 = models.CharField(max_length=150)
     address_line_2 = models.CharField(max_length=150)
     city = models.CharField(max_length=100)
@@ -76,7 +68,7 @@ class Team(models.Model):
 
 class DriverClass(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=150, blank=False, unique=True)
+    name = models.CharField(max_length=150, blank=False, null=False, unique=True)
 
     objects = CreateByNameManager()
 
@@ -86,7 +78,7 @@ class DriverClass(models.Model):
 
 class Session(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=150, blank=False, unique=True)
+    name = models.CharField(max_length=150, blank=False, null=False, unique=True)
 
     objects = CreateByNameManager()
 
@@ -96,7 +88,7 @@ class Session(models.Model):
 
 class Championship(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=150, blank=False, unique=True)
+    name = models.CharField(max_length=150, blank=False, null=False, unique=True)
 
     objects = CreateByNameManager()
 
@@ -106,7 +98,17 @@ class Championship(models.Model):
 
 class RoadCondition(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=150, blank=False, unique=True)
+    name = models.CharField(max_length=150, blank=False, null=False, unique=True)
+
+    objects = CreateByNameManager()
+
+    def __str__(self):
+        return self.name
+
+
+class Weather(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=150, blank=False, null=False, unique=True)
 
     objects = CreateByNameManager()
 
@@ -116,7 +118,7 @@ class RoadCondition(models.Model):
 
 class Year(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, blank=False, null=False,)
 
     objects = CreateByNameManager()
 
@@ -137,6 +139,8 @@ class Result(models.Model):
         'Team', on_delete=models.CASCADE)
     road_condition = models.ForeignKey(
         'RoadCondition', on_delete=models.CASCADE)
+    weather = models.ForeignKey(
+        'Weather', on_delete=models.CASCADE)
     round_number = models.IntegerField()
     position = models.IntegerField()
     position_in_class = models.IntegerField()

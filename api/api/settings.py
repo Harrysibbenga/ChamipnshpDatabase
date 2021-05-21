@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djecrety',
+    'tabula',
+    'pandas',
+    'numpy',
 
     # created apps
     'core',
