@@ -6,7 +6,7 @@
           <span class="headline">Super Admin login</span>
         </v-card-title>
         <v-card-subtitle>
-          You need to login as a super user to acsses the database.
+          You need to login as a super user to maniplulate the database.
         </v-card-subtitle>
         <v-card-text>
           <v-container class="my-3">
@@ -75,6 +75,10 @@ export default {
           const token = res.token
           // set jwt to the cookie
           Cookie.set('admin_token', token, { expires: 1 })
+        })
+        .then(() => {
+          // set token as global variable
+          this.$store.commit('global/SET_TOKEN', Cookie.get('admin_token'))
         })
         .then(() => {
           this.alert = {

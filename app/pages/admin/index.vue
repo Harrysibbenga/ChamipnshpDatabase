@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <UploadChampionship :champ.sync="champ"></UploadChampionship>
+        <DataChampionship :champ.sync="champ"></DataChampionship>
       </v-col>
       <v-col v-if="champ" cols="12">
         <UploadNav :champ="champ"></UploadNav>

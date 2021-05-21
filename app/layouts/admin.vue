@@ -7,3 +7,13 @@
     </v-main>
   </v-app>
 </template>
+
+<script>
+// import Cookie from 'js-cookie'
+
+// export default {
+//   created() {
+//     this.$store.commit('global/SET_TOKEN', Cookie.get('admin_token'))
+//   },
+// }
+</script>

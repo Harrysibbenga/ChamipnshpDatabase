@@ -4,7 +4,7 @@ import { auth } from '@/services/firebase'
 
 export const state = () => ({
   user: null,
-  admin: false,
+  admin: null,
 })
 
 export const mutations = {
